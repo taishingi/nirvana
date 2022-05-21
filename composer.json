@@ -1,0 +1,17 @@
+{
+    "name": "nirvana/nirvana",
+    "description": "The core of the shaolin framework",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Nirvana\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "shingitai",
+            "email": "shingitai@vivaldi.net"
+        }
+    ],
+    "require": {}
+}
