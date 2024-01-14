@@ -1,0 +1,25 @@
+{
+    "name": "nirvana/nirvana",
+    "description": "The core of the shaolin framework",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Nirvana\\Nirvana\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Willy Micieli",
+            "email": "micieli@vivaldi.net"
+        }
+    ],
+    "require": {
+        "symfony/mailer": "^7.0",
+        "robmorgan/phinx": "^0.15.5",
+        "twig/twig": "^3.8",
+        "symfony/console": "^7.0",
+        "symfony/process": "^7.0",
+        "php-di/php-di": "^7.0",
+        "fakerphp/faker": "^1.23"
+    }
+}
