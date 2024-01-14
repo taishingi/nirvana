@@ -1,0 +1,12 @@
+#!/usr/bin/php
+<?php
+
+use Nirvana\Console\Shaolin;
+
+require_once "vendor/autoload.php";
+
+try {
+    (new Shaolin())->run();
+} catch (Exception $e) {
+
+}
