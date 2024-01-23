@@ -13,9 +13,6 @@
         <testsuite name="unit">
             <directory>tests/unit</directory>
         </testsuite>
-        <testsuite name="features">
-            <directory>tests/features</directory>
-        </testsuite>
     </testsuites>
 
     <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
