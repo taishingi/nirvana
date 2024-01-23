@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "vendor/autoload.php";
 
 try
 {
-	(new A())->index();
+	(new A())->index()->send();
 }
 catch (Exception $e)
 {
