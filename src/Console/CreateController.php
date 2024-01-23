@@ -3,6 +3,7 @@
 namespace Nirvana\Console
 {
 	
+	use InvalidArgumentException;
 	use Symfony\Component\Console\Command\Command;
 	use Symfony\Component\Console\Input\InputInterface;
 	use Symfony\Component\Console\Input\InputOption;
@@ -26,22 +27,41 @@ namespace Nirvana\Console
 		public function execute(InputInterface $input, OutputInterface $output): int
 		{
 			$style = new SymfonyStyle($input, $output);
-			$controller = $input->getArgument("controller");
-			if (is_dir($controller))
+			
+			if ($input->hasArgument("controller"))
 			{
-				$style->error("The given controller name is a directory");
+				try
+				{
+					$controller = strval($input->getArgument("controller"));
+				}catch (InvalidArgumentException $e)
+				{
+					$style->error($e->getMessage());
+					return Command::FAILURE;
+				}
+				
+				if (is_dir($controller))
+				{
+					$style->error("The given controller name is a directory");
+					return Command::FAILURE;
+				}
+				$class = ucfirst(str_replace(".php", "", strtolower($controller)));
+				$handle = fopen(sprintf("%s%s%s.php", CONTROLLERS, DIRECTORY_SEPARATOR, $class), "w+");
+				if (!$handle)
+				{
+					return Command::FAILURE;
+				}
+				if (!fwrite($handle, "<?php\nnamespace App\Controllers {\n\n\tuse Nirvana\Core\Application;\n\n\tclass $class extends Application\n\t{\n\n\t}\n}\n")){
+					return  Command::FAILURE;
+				}
+				if (fclose($handle))
+				{
+					$style->success("Controller has been generated successfully");
+					return Command::SUCCESS;
+				}
+				$style->error("Generation of the controller has fail");
 				return Command::FAILURE;
 			}
-			
-			$class = ucfirst(str_replace(".php", "", strtolower($controller)));
-			$handle = fopen(sprintf("%s%s%s.php", CONTROLLERS, DIRECTORY_SEPARATOR, $class), "w+");
-			fwrite($handle, "<?php\nnamespace App\Controllers {\n\n\tuse Nirvana\Core\Application;\n\n\tclass $class extends Application\n\t{\n\n\t}\n}\n");
-			if (fclose($handle))
-			{
-				$style->success("Controller has been generated successfully");
-				return Command::SUCCESS;
-			}
-			$style->error("Generation of the controller has fail");
+			$style->error("missing controller argument");
 			return Command::FAILURE;
 		}
 	}
